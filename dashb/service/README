@@ -1,0 +1,4 @@
+These files are PRIVATE AND SHOULD NOT BE COMMITED TO SVN:
+configure-access.py
+mysql-defaults.cnf
+monitoringsite/settings.py

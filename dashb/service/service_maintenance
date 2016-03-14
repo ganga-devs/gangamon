@@ -1,0 +1,1 @@
+echo `date`"gangamon collector service is under maintenance and is NOT ACTIVE " | mail -s "gangamon server maintenance"  rcurrie@cern.ch 

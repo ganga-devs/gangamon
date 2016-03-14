@@ -1,0 +1,1 @@
+rm -f ./restart_gm_service_if_needed && ln -s DO_RESTART_gm_service_if_needed restart_gm_service_if_needed && echo 'SUCCESS: BACK IN PRODUCTION'

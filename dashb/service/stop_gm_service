@@ -1,0 +1,11 @@
+touch /data/django/service/logs/kill
+if /data/django/service/status_gm_service > /dev/null; then
+	sleep 20
+	if /data/django/service/status_gm_service; then
+	exit 1;
+	else
+	exit 0;
+	fi
+else
+	echo 'stopped (was not running)'
+fi

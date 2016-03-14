@@ -1,0 +1,1 @@
+./stop_gm_service && rm -f ./restart_gm_service_if_needed && ln -s service_maintenance restart_gm_service_if_needed && echo 'SUCCESS: OFF IN MAINTENANCE MODE NOW' || echo 'failure to switch to maintenance, check relevant processes and files'

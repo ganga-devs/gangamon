@@ -1,0 +1,52 @@
+#!/bin/bash
+#sudo -u gangage /data/django/service/update_users.sh || (mail -s "/data/django/service/update_users.sh on ganga-ai-02 returned an error." rcurrie@cern.ch)
+
+
+NOW=`date +"%M"`
+#strip leading zeros
+NOW="$(echo $NOW| sed 's/0*//')"
+let 'remainder=NOW % 5'
+
+
+#check the number of ActiveMQ connections we have, and alert us if there's 
+#a discrepancy between the number we should have, and the number we do have
+#then initiate a restart of the service
+
+#calculate the number of ActiveMQ servers behind the DNS alias
+let p=`host dashb-mb.cern.ch | wc -l`
+#we should have 4 ports open to each ActiveMQ server
+let 'expected=p*4'
+est_conn=`/bin/netstat -ant | /usr/bin/awk '{print $5}' | grep 61123 | wc -l`
+
+#check that we still have $expected established TCP connections to the ActiveMQ servers on port 61123
+if [[ $est_conn -eq $expected ]]
+then
+    echo 'Sufficient connections to ActiveMQ servers found.'
+    restart=0
+else
+    echo 'Insufficient connections to ActiveMQ servers?'
+    echo `date`": check_msg_connections.sh on ganga-ai-02 raised an error (insufficient connections to ActiveMQ servers? Restarting gangamon." | mail -s "check_msg_connections.sh on ganga-ai-02" rcurrie@cern.ch
+    restart=1
+fi
+
+
+#the following gets run every 5 minutes (ie :05, :10, :15 etc)
+if [[ $remainder -eq 0 ]]
+then
+    echo 'Testing to see if the Gangamon service needs restarting'
+    /data/django/service/status_gm_service || (/data/django/service/start_gm_service; echo `date`": gangamon collector service seems dead, trying to restart it." | mail -s "gangamon server problem" rcurrie@cern.ch )
+
+    #If we were going to, we don't need to attempt another restart right now
+    restart=0
+fi
+
+
+if [[ $NOW -eq 02  || $restart -eq 1 ]]
+then
+    #at 02 minutes past the hour, or if instructed by something above, restart the services in case the DNS aliases have changed.
+    echo 'Restarting gangamon services at 2 mins past hour in case the DNS aliases have changed'
+    /data/django/service/stop_gm_service 
+    /data/django/service/start_gm_service
+fi
+
+

@@ -1,0 +1,13 @@
+gmpid=`cat /data/django/service/logs/service_pid`
+
+if ps -p $gmpid >/dev/null; then
+ if [ "$1" != "silent" ]; then
+	 echo "running (pid=$gmpid)"
+ fi
+ exit 0
+else
+ if [ "$1" != "silent" ]; then
+	 echo 'stopped'
+ fi
+ exit 3
+fi
