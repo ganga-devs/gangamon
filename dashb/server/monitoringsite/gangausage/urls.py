@@ -1,4 +1,5 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import patterns, url, include
+#.defaults import *
 
 urlpatterns = patterns('monitoringsite.gangausage.views',
     (r'^current', 'current'),

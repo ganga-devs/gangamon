@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import patterns, url, include
 
 urlpatterns = patterns('monitoringsite.gangamon.views',
     (r'^gangajobs', 'gangajobs'),

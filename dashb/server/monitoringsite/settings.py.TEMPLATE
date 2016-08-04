@@ -81,7 +81,7 @@ ROOT_URLCONF = 'monitoringsite.urls'
 
 #ADD COMMENT AND PREFIX!
 UPLOAD_SERVER_PATH = '/data/django/ganga_error_reports'
-SERVER_DOWNLOAD_PATH = 'http://ganga-ai-02.cern.ch/django/errorreports/download/'
+#SERVER_DOWNLOAD_PATH = 'http://ganga -ai-02.cern.ch/django/errorreports/download/'
 
 TEMPLATE_DIRS = (
     "/data/django/dashboard/server/monitoringsite/templates"

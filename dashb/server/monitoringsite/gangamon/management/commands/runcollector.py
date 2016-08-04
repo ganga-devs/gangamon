@@ -2,12 +2,20 @@ from django.core.management.base import BaseCommand
 #from monitoringsite.gangamon.models import *
 from monitoringsite.gangamon.eventproc import *
 
-import stomp, time, sys
+import stomp
+import time
+import sys
+import ssl
 import traceback
 import os.path
 import logging.handlers
 import datetime
- 
+
+stomp_logger = logging.getLogger('stomp.py')
+stomp_logger.setLevel(logging.DEBUG) 
+stomp_handler = logging.handlers.RotatingFileHandler('/data/gangamon/dashboard/service/logs/runcollector_stomp.log', maxBytes=1000000, backupCount=3)
+stomp_logger.addHandler(stomp_handler)
+
 logger = logging.getLogger('runcollector')
 
 should_stop = False
@@ -22,6 +30,7 @@ class Command(BaseCommand):
     requires_model_validation = True 
 
     def __init__(self):
+        super(Command, self).__init__()
         self.connections = []
 
     def handle(self, *args, **options):
@@ -29,13 +38,13 @@ class Command(BaseCommand):
         global should_stop
 
         PRODUCTION_MODE = False
-        LOGPATH='/data/django/service/logs'
-        DATAPATH='/data/django/data'
+        LOGPATH='/data/gangamon/dashboard/service/logs'
+        DATAPATH='/data/gangamon/dashboard/data'
         try:
             if args[0] == 'production':
                 PRODUCTION_MODE = True
-                LOGPATH='/data/django/service/logs'
-                DATAPATH='/data/django/data'
+                LOGPATH='/data/gangamon/dashboard/service/logs'
+                DATAPATH='/data/gangamon/dashboard/data'
         except IndexError:
             PRODUCTION_MODE = False
         #    LOGPATH='.'
@@ -45,7 +54,7 @@ class Command(BaseCommand):
         loghandler = logging.handlers.RotatingFileHandler(os.path.join(LOGPATH,'runcollector_master.log'), maxBytes=1000000, backupCount=3)
         logger.addHandler(loghandler)
         loghandler.setFormatter(logging.Formatter("%(asctime)s: %(levelname)s: %(message)s"))
-        logger.setLevel(logging.INFO)
+        logger.setLevel(logging.DEBUG)
 
         HEARTBEAT_FILE = os.path.join(LOGPATH,'runcollector.heartbeat.txt')
 
@@ -76,7 +85,7 @@ class Command(BaseCommand):
             print 'log created in:',loghandler.baseFilename
             logger.addHandler(loghandler)
             loghandler.setFormatter(logging.Formatter("%(asctime)s: %(levelname)s: %(message)s"))
-            logger.setLevel(logging.INFO)
+            logger.setLevel(logging.DEBUG)
             logger.info('starting collector %s %d',server, port) 
             logger.info('Production mode is %s',PRODUCTION_MODE)
 
@@ -133,7 +142,8 @@ class Command(BaseCommand):
         connection = stomp.Connection( host_and_ports=[(server, port)],
                                        use_ssl = True, user='ganagmon',
                                        ssl_key_file = '/etc/grid-security/hostkey.pem',
-                                       ssl_cert_file = '/etc/grid-security/hostcert.pem' )
+                                       ssl_cert_file = '/etc/grid-security/hostcert.pem',
+                                       ssl_version = ssl.PROTOCOL_TLSv1_2 )
         connection.set_listener(listener.__class__.__name__,listener)
         connection.start()
         connection.connect()
@@ -192,7 +202,7 @@ class GangaUat09Listener(GangaListener):
         self.logger = logging.getLogger('uat09')
         handler = logging.handlers.TimedRotatingFileHandler('/data/uat09/message.log', when='H', interval=6)
         self.logger.addHandler(handler)
-        self.logger.setLevel(logging.INFO)
+        self.logger.setLevel(logging.DEBUG)
         
     def on_message(self, headers, body):
         """Log message body to /data/uat09/message.log and call
@@ -246,7 +256,7 @@ class GangaUsageListener(stomp.ConnectionListener):
         handler = logging.handlers.RotatingFileHandler(backup_log_path, maxBytes=50000000) #50MB
         logger.info('storing usage events in a backup log: %s',backup_log_path)
         self.logger.addHandler(handler)
-        self.logger.setLevel(logging.INFO)
+        self.logger.setLevel(logging.DEBUG)
         
     def on_message(self, headers, body):
         try:
@@ -291,7 +301,7 @@ class GangaJobSubmittedListener(stomp.ConnectionListener):
         handler = logging.handlers.RotatingFileHandler(backup_log_path, maxBytes=50000000) #50MB
         logger.info('storing job submitted events in a backup log: %s',backup_log_path)
         self.logger.addHandler(handler)
-        self.logger.setLevel(logging.INFO)
+        self.logger.setLevel(logging.DEBUG)
         
     def on_message(self, headers, body):
         try:

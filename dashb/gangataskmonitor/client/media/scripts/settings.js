@@ -6,6 +6,8 @@
 // History:
 // 28.05.2010 Created
 //
+//
+this_HOST = 'http://128.142.142.50'
 
 function Settings() {
     // Application specific settings - START
@@ -38,7 +40,7 @@ function Settings() {
 
     // Users list settings - START
     this.Users = {
-        'dataURL': 'http://ganga-ai-02.cern.ch/gangamon/get_users_JSON?application=ganga', // Users list URL for ajax request
+        'dataURL': this_HOST+'/gangamon/get_users_JSON?application=ganga', // Users list URL for ajax request
         'dataURL_params': function(Data) {
             obj = {
                 'application':Data.application
@@ -57,7 +59,7 @@ function Settings() {
     // Mains settings - START
     this.Mains = {
         // Local, should be changed 
-        'dataURL': 'http://ganga-ai-02.cern.ch/gangamon/gangajobs', //'http://pcadc01.cern.ch/dashboard/request.py/gangataskstable',
+        'dataURL': this_HOST+'/gangamon/gangajobs', //'http://pcadc01.cern.ch/dashboard/request.py/gangataskstable',
         // The form things on the top of the dashboard
         'dataURL_params': function(Data) {
             obj = {
@@ -156,7 +158,7 @@ function Settings() {
     // User Tasks settings - FINISH
     // Subs settings - START
     this.Subs = {
-        'dataURL': 'http://ganga-ai-02.cern.ch/gangamon/gangadetails',
+        'dataURL': this_HOST+'/gangamon/gangadetails',
         'dataURL_params': function(Data) {
             obj = {
                 'job_uuid':Data.tid

@@ -1,0 +1,12 @@
+[Unit]
+Description=Gangamon Collector Service
+
+[Service]
+Type=forking
+WorkingDirectory=/data/gangamon/dashb/server/monitoringsite
+ExecStart=/usr/bin/python /data/gangamon/dashboard/server/monitoringsite/manage.py runcollector production
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

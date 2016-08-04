@@ -176,7 +176,7 @@ def getReportMetadataTar(tarFilePath):
                 #in case of tarball with no metafile, set one monitoring link for the job
                 if jobuuid is not '':
 
-                        urlPrefix = 'http://ganga-ai-02.cern.ch/ganga.html#user=&query='
+                        urlPrefix = settings_HOST+'monitoring/ganga.html#user=&query='
                         monlinks['job monitoring'] = urlPrefix + base64.encodestring('uuid:' + jobuuid)
 
                 result['monlinks'] = monlinks
@@ -554,8 +554,7 @@ def default(request):
                         community, debug = getCommunityAndDebugMode()[0], getCommunityAndDebugMode()[1]
                         if community == 'CMS' and debug == False :
                                 #because for CMS there is different DNS
-                                #serverDownloadPath = os.path.join("http://analysisops.cern.ch/cmserrorreports/download", str(report.id))
-                                serverDownloadPath = os.path.join("http://ganga-ai-02.cern.ch/cmserrorreports/download", str(report.id))
+                                serverDownloadPath = os.path.join(settings_HOST+"cmserrorreports/download", str(report.id))
                         elif community == 'CMS':
                                 serverDownloadPath = serverDownloadPath.replace('errorreports', 'cmserrorreports')
 

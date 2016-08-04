@@ -4,7 +4,8 @@ import httplib
 import string
 import random
 
-uploadFileServer= "http://ganga-ai-02.cern.ch/django/errorreports/"
+uploadFileServer= "http://128.142.142.50/django/errorreports/"
+#uploadFileServer= "http://ganga -ai-02.cern.ch/django/errorreports/"
 #uploadFileServer= "http://127.0.0.1:8000/errorreports"
 
 def random_string (length):

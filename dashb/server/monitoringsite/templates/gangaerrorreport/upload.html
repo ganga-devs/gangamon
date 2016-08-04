@@ -53,22 +53,22 @@ src="{{ MEDIA_URL }}gangaerrorreport/scripts/lib/jquery.dataTables.pagination.in
 	{
 		if (settings_COMMUNITY == 'Ganga')
 		{
-			logo_image.style.background = "url('../../media/gangaerrorreport/images/ganga.png') no-repeat scroll left top transparent";
+			logo_image.style.background = "url('{{ MEDIA_URL }}gangaerrorreport/images/ganga.png') no-repeat scroll left top transparent";
 		}
 		else if (settings_COMMUNITY == 'CMS')
 		{
-			logo_image.style.background = "url('../../media/gangaerrorreport/images/cms.png') no-repeat scroll left top transparent";
+			logo_image.style.background = "url('{{ MEDIA_URL }}cmserrorreport/images/cms.png') no-repeat scroll left top transparent";
 		}
 	}
 	else
 	{
 		if (settings_COMMUNITY == 'Ganga')
 		{
-			logo_image.style.background = "url('../../django_media/gangaerrorreport/images/ganga.png') no-repeat scroll left top transparent";	
+			logo_image.style.background = "url('{{ MEDIA_URL }}gangaerrorreport/images/ganga.png') no-repeat scroll left top transparent";	
 		}
 		else if (settings_COMMUNITY == 'CMS')
 		{
-			logo_image.style.background = "url('../../django_media/cmserrorreport/images/cms.png') no-repeat scroll left top transparent";
+			logo_image.style.background = "url('{{ MEDIA_URL }}cmserrorreport/images/cms.png') no-repeat scroll left top transparent";
 		}
 	}
 
