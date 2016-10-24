@@ -145,7 +145,11 @@ def return_response(request, numberDays, selectedFromDate=None, selectedToDate=N
     #populate the dictionaries for ganga usage statistics
     for s in sessions:
 
-        increment(versions,s.version)
+        if not s.version or s.version.startswith('Ganga-'):
+             increment(versions,s.version)
+        else:
+             s.version = 'Ganga-%s-%s-%s' % (s.version[0], s.version[2], s.version[4:])
+             increment(versions,s.version)
         increment(session_types,s.session_type)
         increment(users,s.user)
         incrementSessionVersions(s, session_versions)  

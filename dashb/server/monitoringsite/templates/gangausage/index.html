@@ -144,13 +144,13 @@
 	<img src="{{ users_per_period_and_experiment_url }}"></img>
 	<br/>
 	<div style="float:left; width:250px;">
-		<img style="border:10px solid; border-color:{{colorsUsersByExperiment.0}}" width="1" height="1" ></img>&nbsp;&nbsp;
+		<img style="border:10px solid; border-color:#{{colorsUsersByExperiment.0}}" width="0" height="0" ></img>&nbsp;&nbsp;
 		<span style="width:250px;">Atlas</span>
 		<br/>
-		<img style="border:10px solid; border-color:{{colorsUsersByExperiment.1}}" width="1" height="1" ></img>&nbsp;&nbsp;
+		<img style="border:10px solid; border-color:#{{colorsUsersByExperiment.1}}" width="0" height="0" ></img>&nbsp;&nbsp;
 		<span style="width:250px;">LHCb</span>	
 		</br>
-		<img style="border:10px solid; border-color:{{colorsUsersByExperiment.2}}" width="1" height="1" ></img>&nbsp;&nbsp;
+		<img style="border:10px solid; border-color:#{{colorsUsersByExperiment.2}}" width="0" height="0" ></img>&nbsp;&nbsp;
 		<span style="width:250px;">other</span>
 		</br>
 	</div>
@@ -170,24 +170,24 @@
 		<img src="{{ sessions_period_and_domain }}"></img>
 		<br/>
 		<div style="float:left; width:250px;">
-			<img style="border:10px solid; border-color:{{colorsSessionsByDomain.0}}" width="1" height="1" ></img>&nbsp;&nbsp;
+			<img style="border:10px solid; border-color:#{{colorsSessionsByDomain.0}}" width="0" height="0" ></img>&nbsp;&nbsp;
 			<span style="width:250px;">{{ domains.0 }}</span>
 			<br/>
-			<img style="border:10px solid; border-color:{{colorsSessionsByDomain.1}}" width="1" height="1" ></img>&nbsp;&nbsp;
+			<img style="border:10px solid; border-color:#{{colorsSessionsByDomain.1}}" width="0" height="0" ></img>&nbsp;&nbsp;
 			<span style="width:250px;">{{ domains.1 }}</span>	
 			</br>
-			<img style="border:10px solid; border-color:{{colorsSessionsByDomain.2}}" width="1" height="1" ></img>&nbsp;&nbsp;
+			<img style="border:10px solid; border-color:#{{colorsSessionsByDomain.2}}" width="0" height="0" ></img>&nbsp;&nbsp;
 			<span style="width:250px;">{{ domains.2 }}</span>
 			</br>
 		</div>
 		<div style="float:left">
-			<img style="border:10px solid; border-color:{{colorsSessionsByDomain.3}}" width="1" height="1" ></img>&nbsp;&nbsp;
+			<img style="border:10px solid; border-color:#{{colorsSessionsByDomain.3}}" width="0" height="0" ></img>&nbsp;&nbsp;
 			<span>{{ domains.3 }}</span>
 			<br/>
-			<img style="border:10px solid; border-color:{{colorsSessionsByDomain.4}}" width="1" height="1" ></img>&nbsp;&nbsp;
+			<img style="border:10px solid; border-color:#{{colorsSessionsByDomain.4}}" width="0" height="0" ></img>&nbsp;&nbsp;
 			<span>{{ domains.4 }}</span>
 			<br/>
-			<img style="border:10px solid; border-color:{{colorsSessionsByDomain.5}}" width="1" height="1" ></img>&nbsp;&nbsp;
+			<img style="border:10px solid; border-color:#{{colorsSessionsByDomain.5}}" width="0" height="0" ></img>&nbsp;&nbsp;
 			<span>{{ domains.5 }}</span>
 		</div>
 
@@ -209,13 +209,13 @@
 		<img src="{{ session_versions_period_fixed }}"></img>
 		<br/>
 		<div style="float:left; width:250px;">
-			<img style="border:10px solid; border-color:{{colorsSessionVersionsFixed.0}}" width="1" height="1" ></img>&nbsp;&nbsp;
+			<img style="border:10px solid; border-color:{{colorsSessionVersionsFixed.0}}" width="0" height="0" ></img>&nbsp;&nbsp;
 			<span style="width:250px;">versions 5.5.x</span>
 			<br/>
-			<img style="border:10px solid; border-color:{{colorsSessionVersionsFixed.1}}" width="1" height="1" ></img>&nbsp;&nbsp;
+			<img style="border:10px solid; border-color:{{colorsSessionVersionsFixed.1}}" width="0" height="0" ></img>&nbsp;&nbsp;
 			<span style="width:250px;">older versions</span>	
 			</br>
-			<img style="border:10px solid; border-color:{{colorsSessionVersionsFixed.2}}" width="1" height="1" ></img>&nbsp;&nbsp;
+			<img style="border:10px solid; border-color:{{colorsSessionVersionsFixed.2}}" width="0" height="0" ></img>&nbsp;&nbsp;
 			<span style="width:250px;">development versions</span>
 			</br>
 		</div>
@@ -239,35 +239,35 @@
 		<br/>
 		<div style="float:left; width:250px;">
 			{% if versionList.0 %}
-				<img style="border:10px solid; border-color:{{colorsSessionVersions.0}}" width="1" height="1" ></img>&nbsp;&nbsp;
+				<img style="border:10px solid; border-color:#{{colorsSessionVersions.0}}" width="0" height="0" ></img>&nbsp;&nbsp;
 				<span style="width:250px;">{{ versionList.0 }}</span>
 				<br/>
 			{% endif %}
 			{% if versionList.1 %}
-				<img style="border:10px solid; border-color:{{colorsSessionVersions.1}}" width="1" height="1" ></img>&nbsp;&nbsp;
+				<img style="border:10px solid; border-color:#{{colorsSessionVersions.1}}" width="0" height="0" ></img>&nbsp;&nbsp;
 				<span style="width:250px;">{{ versionList.1 }}</span>	
 				</br>
 			{% endif %}
 			{% if versionList.2 %}
 	
-				<img style="border:10px solid; border-color:{{colorsSessionVersions.2}}" width="1" height="1" ></img>&nbsp;&nbsp;
+				<img style="border:10px solid; border-color:#{{colorsSessionVersions.2}}" width="0" height="0" ></img>&nbsp;&nbsp;
 				<span style="width:250px;">{{ versionList.2 }}</span>
 				</br>
 			{% endif %}
 		</div>
 		<div style="float:left">
 			{% if versionList.3 %}
-				<img style="border:10px solid; border-color:{{colorsSessionVersions.3}}" width="1" height="1" ></img>&nbsp;&nbsp;
+				<img style="border:10px solid; border-color:#{{colorsSessionVersions.3}}" width="0" height="0" ></img>&nbsp;&nbsp;
 				<span>{{ versionList.3 }}</span>
 				<br/>
 			{% endif %}
 			{% if versionList.4 %}
-				<img style="border:10px solid; border-color:{{colorsSessionVersions.4}}" width="1" height="1" ></img>&nbsp;&nbsp;
+				<img style="border:10px solid; border-color:#{{colorsSessionVersions.4}}" width="0" height="0" ></img>&nbsp;&nbsp;
 				<span>{{ versionList.4 }}</span>
 				<br/>
 			{% endif %}
 			{% if versionList.5 %}
-				<img style="border:10px solid; border-color:{{colorsSessionVersions.5}}" width="1" height="1" ></img>&nbsp;&nbsp;
+				<img style="border:10px solid; border-color:#{{colorsSessionVersions.5}}" width="0" height="0" ></img>&nbsp;&nbsp;
 				<span>{{ versionList.5 }}</span>
 			{% endif %}
 		</div>
@@ -289,13 +289,13 @@
 	<img src="{{ job_submission_distribution_by_period_url }}"></img>
 	<br/>
 	<div style="float:left; width:250px;">
-		<img style="border:10px solid; border-color:{{colorsSubmittedJobs.0}}" width="1" height="1" ></img>&nbsp;&nbsp;
+		<img style="border:10px solid; border-color:#{{colorsSubmittedJobs.0}}" width="0" height="0" ></img>&nbsp;&nbsp;
 		<span style="width:250px;">Non-Split Jobs</span>
 		<br/>
-		<img style="border:10px solid; border-color:{{colorsSubmittedJobs.1}}" width="1" height="1" ></img>&nbsp;&nbsp;
+		<img style="border:10px solid; border-color:#{{colorsSubmittedJobs.1}}" width="0" height="0" ></img>&nbsp;&nbsp;
 		<span style="width:250px;">Master Jobs</span>	
 		</br>
-		<img style="border:10px solid; border-color:{{colorsSubmittedJobs.2}}" width="1" height="1" ></img>&nbsp;&nbsp;
+		<img style="border:10px solid; border-color:#{{colorsSubmittedJobs.2}}" width="0" height="0" ></img>&nbsp;&nbsp;
 		<span style="width:250px;">Sub Jobs</span>
 		</br>
 	</div>

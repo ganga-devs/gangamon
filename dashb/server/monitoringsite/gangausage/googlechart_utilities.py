@@ -362,7 +362,10 @@ def incrementSessionVersions(s, dictionary):
                 
         #not in the standart pattern for ganga versions
         if match is None:
-            increment(dictionary, 'development versions')                    
+            if not s.version or s.version.startswith('Ganga-'):
+                increment(dictionary, 'development versions')
+            else:
+                increment(dictionary, 'Ganga-%s-%s-%s' % (s.version[0], s.version[2], s.version[4:]))
         else:
             increment(dictionary, s.version) 
 
@@ -370,11 +373,11 @@ def incrementCernNonCernUsers(s, nonCernUsers, localUsers, cernUsers):
         if "cern.ch" not in s.host:
             dot_index = s.host.find('.')
             #other than cern.ch domain
-            if dot_index > 0:                
-                increment(nonCernUsers, s.user)
+            #if dot_index > 0:                
+            increment(nonCernUsers, s.user)
             #local domain
-            else: 
-                increment(localUsers, s.user)
+            #else: 
+            #    increment(localUsers, s.user)
         #cern.ch domain
         else:
             increment(cernUsers, s.user) 
@@ -416,8 +419,9 @@ def fillNonCernInstallationsUsers(sessions, reduced_non_cern_installations, non_
                 hostSessions = []
                 for s in sessions:
                         dotIndex = s.host.find('.')
-                        if dotIndex > 0 and s.host[dotIndex+1:] == host:
-                                hostSessions.append(s)  
+                        if dotIndex > 0:# and s.host[dotIndex+1:] == host:
+                                hostSessions.append(s)
+                        #hostSessions.append(s)
 
                 #get unique users for the host sessions
                 uniqueUsers = {}
@@ -432,8 +436,9 @@ def fillNonCernInstallationsCountryUsers(sessions, reduced_non_cern_installation
                 for s in sessions:
                         if 'cern.ch' not in s.host:
                                 dotIndex = s.host.rfind('.')
-                                if dotIndex > 0 and s.host[dotIndex+1:] == country:
-                                        countrySessions.append(s)   
+                                if dotIndex > 0:# and s.host[dotIndex+1:] == country:
+                                        countrySessions.append(s)
+                                #countrySessions.append(s)
                 #get unique users for the country sessions
                 uniqueUsers = {}
                 for s in countrySessions: 
@@ -590,7 +595,10 @@ def fillTimeChartDictionaries(sessions, experimentName, sessions_by_period_and_d
                         match = re.match(pattern, s.version)
                 
                         if match is None:
-                                increment(periodSessionVersions, 'development versions')                    
+                                if not s.version or s.version.startswith('Ganga-'):
+                                    increment(periodSessionVersions, 'development versions')
+                                else:
+                                    increment(periodSessionVersions, 'Ganga-%s-%s-%s' % (s.version[0], s.version[2], s.version[4:]))
                         else:
                                 increment(periodSessionVersions, s.version)                     
 

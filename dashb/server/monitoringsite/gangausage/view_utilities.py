@@ -412,19 +412,26 @@ def incrementSessionVersions(s, dictionary):
                 
         #not in the standart pattern for ganga versions
         if match is None:
-            increment(dictionary, 'development versions')                    
+            if not s.version or s.version.startswith('Ganga-'):
+                increment(dictionary, 'development versions')
+            else:
+                increment(dictionary, 'Ganga-%s-%s-%s' % (s.version[0], s.version[2], s.version[4:]))
+            #if not s.version or len(s.version)<10:
+            #    increment(dictionary, 'development versions')
+            #else:
+            #    increment(dictionary, 'Ganga-%s-%s-%s' % (s.version[6], s.version[8], s.version[10:]) )
         else:
-            increment(dictionary, s.version) 
+            increment(dictionary, s.version)
 
 def incrementCernNonCernUsers(s, nonCernUsers, localUsers, cernUsers):
         if "cern.ch" not in s.host:
             dot_index = s.host.find('.')
             #other than cern.ch domain
             if dot_index > 0:                
-                increment(nonCernUsers, s.user)
+                 increment(nonCernUsers, s.user)
             #local domain
-            else: 
-                increment(localUsers, s.user)
+            else:
+                increment(localUsers, s)
         #cern.ch domain
         else:
             increment(cernUsers, s.user) 
@@ -445,8 +452,12 @@ def incrementNonCernInstallation(s, non_cern_installations, gangaInstallations):
                 increment(non_cern_installations, string.lower(s.host[dot_index+1:]))
                 increment(gangaInstallations, "Non CERN installations")
             #local domain
-            else: 
-                increment(gangaInstallations, "unknown")
+            else:
+                for exp in ['GangaLHCb', 'GangaAtlas']:
+                    if exp in s.runtime_packages:
+                       increment(gangaInstallations, "unknown-CERN")
+                       return
+                increment(gangaInstallations, "unknown-NonCERN")
         #cern installation
         else:
             increment(gangaInstallations, "CERN installations")
@@ -467,8 +478,7 @@ def fillNonCernInstallationsUsers(sessions, reduced_non_cern_installations, non_
                 for s in sessions:
                         dotIndex = s.host.find('.')
                         if dotIndex > 0 and s.host[dotIndex+1:] == host:
-                                hostSessions.append(s)  
-
+                                hostSessions.append(s)
                 #get unique users for the host sessions
                 uniqueUsers = {}
                 for s in hostSessions: 
@@ -483,7 +493,7 @@ def fillNonCernInstallationsCountryUsers(sessions, reduced_non_cern_installation
                         if 'cern.ch' not in s.host:
                                 dotIndex = s.host.rfind('.')
                                 if dotIndex > 0 and s.host[dotIndex+1:] == country:
-                                        countrySessions.append(s)   
+                                        countrySessions.append(s)
                 #get unique users for the country sessions
                 uniqueUsers = {}
                 for s in countrySessions: 
@@ -573,7 +583,21 @@ def fillGangaUsers(gangaUsers, cernUsers, nonCernUsers, localUsers):
         if len(nonCernUsers) > 0:
                 gangaUsers["Non CERN users"] = len(nonCernUsers)
         if len(localUsers) > 0:
-                gangaUsers["unknown users"] = len(localUsers)                                                   
+                local_CERN_count = {}
+                local_NonCERN_count = {}
+                for s in localUsers:
+                    atCERN=False
+                    for exp in ['GangaLHCb', 'GangaAtlas']:
+                        if exp in s.runtime_packages:
+                            local_CERN_count.setdefault(s.user, 0)
+                            local_CERN_count[s.user]+=1
+                            atCERN=True
+                    if not atCERN:
+                        local_NonCERN_count.setdefault(s.user, 0)
+                        local_NonCERN_count[s.user]+=1
+                #gangaUsers["unknown users"] = len(localUsers)
+                gangaUsers["unknown CERN-users"] = len(local_CERN_count.keys())
+                gangaUsers["unknown NonCERN-users"] = len(local_NonCERN_count.keys())
 
 #populate the dictionaries for session versions by period, sessions by period and domain and dictionary for unique users per period    
 #each dictionary entry has a key number of period in the selected time range and represents a single bar in the time charts, the value of the dictionary entry is dictionary and it is represented in the different colors in the bar
@@ -619,7 +643,13 @@ def fillTimeChartDictionaries(sessions, experimentName, sessions_by_period_and_d
                                 import string                 
                                 increment(periodDomains, string.lower(s.host[dot_index+1:]))                                 
                         else:
-                                increment(periodDomains, 'unknown')                                               
+                                atCERN=False
+				for exp in ['GangaLHCb', 'GangaAtlas']:
+                    		    if exp in s.runtime_packages:
+                                        increment(periodDomains, "unknown-CERN")
+                                        atCERN=True
+                                if not atCERN:
+                                    increment(periodDomains, 'unknown-NonCERN')                                               
             
                         #fill period new/old version
                         """
@@ -644,7 +674,10 @@ def fillTimeChartDictionaries(sessions, experimentName, sessions_by_period_and_d
                         match = re.match(pattern, s.version)
                 
                         if match is None:
-                                increment(periodSessionVersions, 'development versions')                    
+                                if not s.version or s.version.startswith('Ganga-'):
+                                    increment(periodSessionVersions, 'development versions')
+                                else:
+                                    increment(periodSessionVersions, 'Ganga-%s-%s-%s' % (s.version[0], s.version[2], s.version[4:]))
                         else:
                                 increment(periodSessionVersions, s.version)                     
 
