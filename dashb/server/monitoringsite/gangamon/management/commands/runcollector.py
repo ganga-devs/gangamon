@@ -13,7 +13,7 @@ import datetime
 
 stomp_logger = logging.getLogger('stomp.py')
 stomp_logger.setLevel(logging.DEBUG) 
-stomp_handler = logging.handlers.RotatingFileHandler('/data/gangamon/dashboard/service/logs/runcollector_stomp.log', maxBytes=1000000, backupCount=3)
+stomp_handler = logging.handlers.RotatingFileHandler('/data/gangamon/dashboard/service/logs/runcollector_stomp.log', maxBytes=10*1024*1024, backupCount=5)
 stomp_logger.addHandler(stomp_handler)
 
 logger = logging.getLogger('runcollector')
@@ -51,7 +51,7 @@ class Command(BaseCommand):
         #    DATAPATH='.'
 
 
-        loghandler = logging.handlers.RotatingFileHandler(os.path.join(LOGPATH,'runcollector_master.log'), maxBytes=1000000, backupCount=3)
+        loghandler = logging.handlers.RotatingFileHandler(os.path.join(LOGPATH,'runcollector_master.log'), maxBytes=10*1024*1024, backupCount=5)
         logger.addHandler(loghandler)
         loghandler.setFormatter(logging.Formatter("%(asctime)s: %(levelname)s: %(message)s"))
         logger.setLevel(logging.DEBUG)
@@ -81,7 +81,7 @@ class Command(BaseCommand):
 
         print 'log created in:',loghandler.baseFilename
         for server in msghosts:
-            loghandler = logging.handlers.RotatingFileHandler(os.path.join(LOGPATH,'runcollector_'+str(server)+'.log'), maxBytes=1000000, backupCount=3)
+            loghandler = logging.handlers.RotatingFileHandler(os.path.join(LOGPATH,'runcollector_'+str(server)+'.log'), maxBytes=10*1024*1024, backupCount=5)
             print 'log created in:',loghandler.baseFilename
             logger.addHandler(loghandler)
             loghandler.setFormatter(logging.Formatter("%(asctime)s: %(levelname)s: %(message)s"))
@@ -253,7 +253,7 @@ class GangaUsageListener(stomp.ConnectionListener):
         import logging.handlers
         self.logger = logging.getLogger('gangausage.emergency')
         backup_log_path = os.path.join(DATAPATH,'ganga.usage.emergency.log')
-        handler = logging.handlers.RotatingFileHandler(backup_log_path, maxBytes=50000000) #50MB
+        handler = logging.handlers.RotatingFileHandler(backup_log_path, maxBytes=10*1024*1024, backupCount=5) #10MB
         logger.info('storing usage events in a backup log: %s',backup_log_path)
         self.logger.addHandler(handler)
         self.logger.setLevel(logging.DEBUG)
@@ -298,8 +298,8 @@ class GangaJobSubmittedListener(stomp.ConnectionListener):
         import logging.handlers
         self.logger = logging.getLogger('gangajobsubmitted.emergency')
         backup_log_path = os.path.join(DATAPATH,'ganga.jobsubmitted.emergency.log')
-        handler = logging.handlers.RotatingFileHandler(backup_log_path, maxBytes=50000000) #50MB
-        logger.info('storing job submitted events in a backup log: %s',backup_log_path)
+        handler = logging.handlers.RotatingFileHandler(backup_log_path, maxBytes=10*1024*1024, backupCount=5) #10MB
+        logger.info('storing job submitted events in a backup log: %s', backup_log_path)
         self.logger.addHandler(handler)
         self.logger.setLevel(logging.DEBUG)
         
